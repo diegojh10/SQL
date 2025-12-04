@@ -1,5 +1,8 @@
-# SQL
-sql portfolio
+Diego's Break into Tech SQL Portfolio 
+
+"Welcome to my SQL portfolio! This code repository contains examples of SQL I've written. Feel free to take a look and reach out if you have any questions."
+
+
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
