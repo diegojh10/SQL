@@ -1,0 +1,58 @@
+--Show Customers (their full names, customer ID, and country) who are not in the US.
+
+SELECT customers.CustomerId, customers.FirstName, customers.LastName, customers.Country
+FROM customers
+WHERE customers.country <> 'USA'
+;
+
+--Show only customers from Brazil 
+SELECT customers.FirstName, customers.LastName, customers.Country
+FROM customers
+WHERE customers.Country LIKE '%Brazil%'
+;
+
+--Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT customers.FirstName, customers.LastName, invoices.InvoiceId, invoices.InvoiceDate, invoices.BillingCountry
+FROM customers
+INNER JOIN invoices
+ON customers.CustomerId = invoices.CustomerId
+WHERE invoices.BillingCountry = 'Brazil'
+;
+
+--Show the Employees who are Sales Agents
+
+SELECT employees.FirstName, employees.LastName, employees.Title
+FROM employees
+WHERE employees.title = 'Sales Support Agent'
+;
+
+--How many invoices were there in 2009?
+
+SELECT COUNT(*)
+FROM invoices
+WHERE invoices.InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31'
+;
+
+-- What were the total sales for 2009?
+SELECT SUM(total)
+FROM invoices
+WHERE invoices.InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31'
+;
+
+-- Which sales rep made the most money in sales in 2009?
+
+SELECT employees.EmployeeId, employees.firstname, employees.LastName,
+ROUND(SUM(invoices.Total), 2) AS 'Total Sales'
+FROM employees
+
+JOIN customers
+ON employees.EmployeeId = customers.SupportRepId
+
+JOIN invoices
+ON invoices.CustomerId = customers.CustomerId
+
+WHERE employees.Title = 'Sales Support Agent'
+AND invoices.InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31'
+GROUP BY employees.FirstName
+ORDER BY 'Total Sales' desc
+LIMIT 1;
